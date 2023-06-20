@@ -1,16 +1,36 @@
 <?php
 
 namespace App\Http\Controllers\API;
-
+use Mail;
+use App\Mail\testmail;
 use App\Http\Controllers\Controller;
 use App\Models\posts;
 use Illuminate\Http\Request;
 
 class PostsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public function sendmail(Request $request){
+$mailData=[
+    'title' => 'mail from title',
+    'body' => 'This is test body from mail'];
+Mail::to('gergesvictor512@gmail.com')->send(new testmail($mailData));
+return'Email send successfully.';
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     public function index(Request $request)
     {
         if ($request->user()->cannot('view',  posts::class)) 

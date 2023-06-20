@@ -40,3 +40,6 @@ Route::group(['middleware' => 'auth:sanctum'],function(){
 });
 
 
+Route::get('sendMail',[PostsController::class,'sendmail']);
+
+
