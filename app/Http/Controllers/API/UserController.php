@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Events\login;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Resources\UserResource;
@@ -51,15 +52,16 @@ else{
     }
     public function login(Request $request)
     {
-// if(\Auth::attempt($request->only('email','password'))){
-//     //  return \Auth::user();
-//     $token =  \Auth::user()->createToken($request->email)->plainTextToken; 
-// return new UserResource([\Auth::user(),$token]);
-// }
-// else{
-//     return "not valied";
-// }
-return User::find(9)->tokens;
+if(\Auth::attempt($request->only('email','password'))){
+    //  return \Auth::user();
+    $token =  \Auth::user()->createToken($request->email)->plainTextToken; 
+    event(new login(User::find(\Auth::user()->id))); 
+return new UserResource([\Auth::user(),$token]);
+}
+else{
+    return "not valied";
+}
+// return User::find(9)->tokens;
         //
     }
 
